@@ -438,29 +438,16 @@ public static void main(String[] args) throws Exception {
 			"userID='70353'");
 	
 	ApiQueryResult qResult=apiService.query(session, myQuery);
-	ApiFindResult candidateResults= apiService.find(session,
-			"Candidate", qResult.getIds().get(0));
-	
-	CandidateDto candidate=(CandidateDto) candidateResults.getDto();
-	System.out.println(qResult.getIds());
+	ApiFindResult candidateResults;
+	CandidateDto candidate;
 	
 	
 	ApiSaveResult saveResult;
 	
-	/*DtoQuery myQuery = new DtoQuery();
-	myQuery.setEntityName("Candidate");
-	myQuery.setMaxResults(3);
-	myQuery.setWhere("userID='67288'" + " " + "OR" + " " + "userID='67289'" + " " + "OR" + " " + "userID='67290'");
-	
-	ApiQueryResult qResult=apiService.query(session, myQuery);
-	//ApiFindResult candidateResults= apiService.find(session,"Candidate", qResult.getIds().get(0));
-	System.out.println(qResult.getIds());*/
-	
-	System.out.println(qResult.getIds().size());
 	
 	
 	
-	for(int index=256; index<qResult.getIds().size(); index++){
+	for(int index=0; index<qResult.getIds().size(); index++){
 		
 		candidateResults= apiService.find(session, "Candidate", qResult.getIds().get(index));
 		
