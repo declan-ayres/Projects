@@ -246,7 +246,7 @@ public class Update {
 		
 		
 		 ObjectNode updates = entityApi.update(BHRestApi.Entity.ENTITY_TYPE.CANDIDATE, restToken, candidates.path("data").get(0).path("id"), 
-				 ((ObjectNode) toUpdate.path("data")).put("customText20", "Yes"));
+				 ((ObjectNode) toUpdate.path("data")).put("customText20", "RockStar"));
 		
 		System.out.println(toUpdate);
 		
@@ -269,7 +269,7 @@ public class Update {
 			
 			
 			updates = entityApi.update(BHRestApi.Entity.ENTITY_TYPE.CANDIDATE, restToken, candId, 
-					 ((ObjectNode) toUpdate.path("data")).put("customText20", "Yes"));
+					 ((ObjectNode) toUpdate.path("data")).put("customText20", "RockStar"));
 			
 			
 			
@@ -298,23 +298,23 @@ public class Update {
 		
 		
 		
-		int start = 0;
+		long start = 0;
 		
 		
 		ObjectNode candidates = entityApi.search(BHRestApi.Entity.ENTITY_TYPE.CANDIDATE, restToken,
 				"id:67282 OR id:67283 OR id:67284  OR id:67285 OR id:67286 OR id:67287 OR id:67288  OR id:67289 OR id:67290" ,
-				"id", "+id", 1, start);
+				"id, customDate2", "+id", 1, start);
 		
-		ObjectNode fields = entityApi.get(BHRestApi.Entity.ENTITY_TYPE.CANDIDATE, restToken, candidates.path("data").get(0).path("id"), "notes");
+		ObjectNode notes = entityApi.get(BHRestApi.Entity.ENTITY_TYPE.CANDIDATE, restToken, candidates.path("data").get(0).path("id"), "notes");
 		
-		ObjectNode t = entityApi.get(BHRestApi.Entity.ENTITY_TYPE.NOTE, restToken,fields.path("data").path("notes").path("data").get(0).path("id"),
+		ObjectNode t = entityApi.get(BHRestApi.Entity.ENTITY_TYPE.NOTE, restToken,notes.path("data").path("notes").path("data").get(0).path("id"),
 				"dateAdded, action");
 		
 		
 		
 		System.out.println(t);
-		System.out.println(fields);
-		System.out.println(fields.path("data").path("notes").path("data").get(0).path("id"));
+		System.out.println(notes);
+		System.out.println(notes.path("data").path("notes").path("data").get(0).path("id"));
 		System.out.println(candidates);
 		System.out.println(candidates.path("data").get(0).path("id"));
 		
@@ -322,31 +322,31 @@ public class Update {
 		Date date;
 		long stamp;
 		
-		  
+		
 		  
 		  
 		  for (int i = 0; i < candidates.path("total").asInt(); i++ ) {
 			  
 			  candidates = entityApi.search(BHRestApi.Entity.ENTITY_TYPE.CANDIDATE, restToken,
 						"isDeleted:0 AND NOT status:archive" ,
-						"id", "+id", 1, start);
+						"id, notes, customDate2", "+id", 1, start);
 			  
-			  
+			  System.out.println(candidates);
 			  System.out.println(candidates.path("data").get(0).path("id"));
 			  
-			  fields = entityApi.get(BHRestApi.Entity.ENTITY_TYPE.CANDIDATE, restToken,
-					  candidates.path("data").get(0).path("id"), "notes(personReference)");
+			  notes = entityApi.get(BHRestApi.Entity.ENTITY_TYPE.CANDIDATE, restToken,
+					  candidates.path("data").get(0).path("id"), "notes");
 			  
 			  
 			 
-			  if (fields.path("data").path("notes").path("total").asInt() > 1) {
+			  if (notes.path("data").path("notes").path("total").asInt() > 1) {
 				
 				  
-				  for (int index=0; index<fields.path("data").path("notes").path("total").asInt(); index++) {
+				  for (int index=0; index<notes.path("data").path("notes").path("total").asInt(); index++) {
 			  
-					  System.out.println(fields);
+					  System.out.println(notes);
 					  t = entityApi.get(BHRestApi.Entity.ENTITY_TYPE.NOTE,
-					  restToken,fields.path("data").path("notes").path("data").get(index).path("id"), "dateAdded, action");
+					  restToken,notes.path("data").path("notes").path("data").get(index).path("id"), "dateAdded, action");
 			  
 			  
 				  
@@ -365,10 +365,10 @@ public class Update {
 					  
 				  } 
 			  
-			  } else if (fields.path("data").path("notes").path("total").asInt() == 1) {
+			  } else if (notes.path("data").path("notes").path("total").asInt() == 1) {
 				  
 				  t = entityApi.get(BHRestApi.Entity.ENTITY_TYPE.NOTE,
-						  restToken,fields.path("data").path("notes").path("data").get(0).path("id"), "dateAdded, action");
+						  restToken,notes.path("data").path("notes").path("data").get(0).path("id"), "dateAdded, action");
 				  
 				  
 				  if (t.path("data").path("action").asText().equals("Outbound Call") ||
