@@ -320,18 +320,15 @@ public class Update {
 		
 		
 		Date date;
-		
+		long stamp;
 		
 		  
-		 // ObjectNode cands = entityApi.search(BHRestApi.Entity.ENTITY_TYPE.CANDIDATE, restToken, "isDeleted:0", "customDate2, id", "+id", 500, 27285);
-		  
-		  //System.out.println(cands);
 		  
 		  
 		  for (int i = 0; i < candidates.path("total").asInt(); i++ ) {
 			  
 			  candidates = entityApi.search(BHRestApi.Entity.ENTITY_TYPE.CANDIDATE, restToken,
-						/*"id:67282 OR id:67283 OR id:67284  OR id:67285 OR id:67286 OR id:67287 OR id:67288  OR id:67289 OR id:67290"*/"isDeleted:0" ,
+						"isDeleted:0 AND NOT status:archive" ,
 						"id", "+id", 1, start);
 			  
 			  
@@ -360,8 +357,8 @@ public class Update {
 							  	t.path("data").path("action").asText().equals("Interview") || 
 							  		t.path("data").path("action").asText().equals("Prescreened")) {
 				  
-						  long stamp1 = t.path("data").path("dateAdded").longValue();
-						  date = new Date(stamp1);
+						  stamp = t.path("data").path("dateAdded").longValue();
+						  date = new Date(stamp);
 						  System.out.println(date);
 						  break;
 					  }
@@ -379,8 +376,8 @@ public class Update {
 						  	t.path("data").path("action").asText().equals("Interview") || 
 						  		t.path("data").path("action").asText().equals("Prescreened")) {
 			  
-					  long stamp1 = t.path("data").path("dateAdded").longValue();
-					  date = new Date(stamp1);
+					  stamp = t.path("data").path("dateAdded").longValue();
+					  date = new Date(stamp);
 					  System.out.println(date);
 					  
 				  }
