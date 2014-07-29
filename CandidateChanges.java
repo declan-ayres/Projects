@@ -58,14 +58,6 @@ import org.joda.time.format.DateTimeFormat;
 
 
 
-import javax.xml.transform.Source;
-import javax.xml.transform.stream.StreamSource;
-import javax.xml.validation.Schema;
-import javax.xml.validation.SchemaFactory;
-import javax.xml.validation.Validator;
-
-
-
 public class CandidateChanges{
 	private static final QName SERVICE_NAME = new QName("http://apiservice.bullhorn.com/", "ApiService");
 	private static final String WSDL_URL = "https://api.bullhornstaffing.com/webservices-2.5/?wsdl";
@@ -166,8 +158,7 @@ public static void main(String[] args) throws Exception {
 	int year;
 	int hour;
 	int minute;
-	int count;
-	
+
 	ApiGetEditHistoryResult history;
 	List<ApiEditHistory> histObjects;
 	
